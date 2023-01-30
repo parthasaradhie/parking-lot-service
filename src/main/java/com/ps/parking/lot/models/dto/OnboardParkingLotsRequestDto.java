@@ -7,6 +7,7 @@ import com.ps.parking.lot.models.domain.ParkingFloorDetails;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Builder
 public class OnboardParkingLotsRequestDto {
     @NotBlank
     private String parkingLotId;
