@@ -8,6 +8,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SlotSizeTest {
 
+    private static final int PRIORITY = 1;
+    private static final String SMALL = "SMALL";
+    private static final String LARGE = "LARGE";
+    private static final String MEDIUM = "MEDIUM";
+    private static final String X_LARGE = "X_LARGE";
+    @Test
+    void testGetPriority() {
+
+        assertEquals(1, PRIORITY);
+    }
+
+    @Test
+    void testValueOf() {
+        assertDoesNotThrow(() -> SlotSize.valueOf(SMALL));
+        assertDoesNotThrow(() -> SlotSize.valueOf(LARGE));
+        assertDoesNotThrow(() -> SlotSize.valueOf(MEDIUM));
+        assertDoesNotThrow(() -> SlotSize.valueOf(X_LARGE));
+    }
+
     @Test
     void testGetSize() {
         assertEquals(1, SlotSize.SMALL.getSize());

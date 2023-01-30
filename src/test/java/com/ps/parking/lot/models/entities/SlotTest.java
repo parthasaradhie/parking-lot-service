@@ -5,17 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.junit.jupiter.api.Test;
 
-import com.ps.parking.lot.models.domain.enums.SlotType;
+import com.ps.parking.lot.models.domain.enums.SlotSize;
 
 public class SlotTest {
 
     private static final long ID=12;
-    private static final int MNEMONIC= 123;
     private static final boolean IS_AVAILABLE= false;    
-    private static final SlotType SLOT_TYPE =SlotType.SMALL;
+    private static final String MNEMONIC= "123PS";
+    private static final SlotSize SLOT_TYPE =SlotSize.SMALL;
     private static final ParkingLot PARKING_LOT= new ParkingLot();
     private static final Floor FLOOR =new Floor();
-    private static final Slot.Builder  SLOT= Slot.builder().floor(FLOOR).id(ID).mnemonic(MNEMONIC).slotType(SLOT_TYPE).parkingLot(PARKING_LOT).isAvailable(IS_AVAILABLE);
+    private static final Slot.Builder  SLOT= Slot.builder().floor(FLOOR).id(ID).mnemonic(MNEMONIC).slotSize(SLOT_TYPE).parkingLot(PARKING_LOT).isAvailable(IS_AVAILABLE);
     @Test
     void testBuilder() {
         Slot slot= SLOT.build();
@@ -49,9 +49,9 @@ public class SlotTest {
     }
 
     @Test
-    void testGetSlotType() {
+    void testGetSlotSize() {
         Slot slot= SLOT.build();
-        assertEquals(SLOT_TYPE, slot.getSlotType());
+        assertEquals(SLOT_TYPE, slot.getSlotSize());
     }
 
     @Test

@@ -8,12 +8,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
-
 import com.ps.parking.lot.dao.FloorDao;
 import com.ps.parking.lot.dao.ParkingLotDao;
 import com.ps.parking.lot.dao.SlotDao;
@@ -42,21 +39,17 @@ public class ParkingLotOnboardServiceTest {
     @InjectMocks
     private  ParkingLotOnboardService service;
 
-    private ParkingLotService parkingLotService;
     private ParkingLot parkingLot;
     private Floor floor;
-    private Slot slot;
-    private SlotOccupancy slotOccupancy;
-
     @BeforeEach
     public void setUp() {
         // parkingLotService = new ParkingLotService(parkingLotRepository,
         //         floorRepository, slotRepository, slotOccupancyRepository);
         parkingLot = ParkingLot.builder().id(1L).mnemonic("Test Parking Lot").build();
         floor = Floor.builder().id(1L).mnemonic(1).parkingLot(parkingLot).build();
-        slot = Slot.builder().id(1L).mnemonic("A1").isAvailable(true).slotSize(SlotSize.LARGE)
+        Slot.builder().id(1L).mnemonic("A1").isAvailable(true).slotSize(SlotSize.LARGE)
                 .parkingLot(parkingLot).floor(floor).build();
-        slotOccupancy = SlotOccupancy.builder().id(1L).vehicleId(123).parkingLotId(1L).floorId(1L)
+        SlotOccupancy.builder().id(1L).vehicleId(123).parkingLotId(1L).floorId(1L)
                 .slotId(1L)
                 .startTime(OffsetDateTime.now()).endTime(OffsetDateTime.now()).build();
     }
