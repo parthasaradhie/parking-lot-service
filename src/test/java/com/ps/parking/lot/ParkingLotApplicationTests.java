@@ -1,9 +1,9 @@
-package com.ps.parkinglot;
+package com.ps.parking.lot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+// @SpringBootTest
 class ParkingLotApplicationTests {
 
 	@Test

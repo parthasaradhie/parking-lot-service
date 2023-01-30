@@ -9,13 +9,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "slot_occupancy")
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(builderClassName = "Builder")
 public class SlotOccupancy {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
