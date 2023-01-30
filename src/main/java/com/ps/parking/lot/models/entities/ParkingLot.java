@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ParkingLot {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 100)
     private String mnemonic;

@@ -1,7 +1,7 @@
 package com.ps.parking.lot.models.entities;
 
-import com.ps.parking.lot.models.domain.enums.SlotType;
-import com.ps.parking.lot.utils.converters.SlotTypeAttributeConverter;
+import com.ps.parking.lot.models.domain.enums.SlotSize;
+import com.ps.parking.lot.utils.converters.SlotSizeAttributeConverter;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -23,13 +23,13 @@ import lombok.NoArgsConstructor;
 public class Slot {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int mnemonic;
+    private String mnemonic;
     private boolean isAvailable;
 
-    @Convert(converter = SlotTypeAttributeConverter.class)
-    private SlotType slotType;
+    @Convert(converter = SlotSizeAttributeConverter.class)
+    private SlotSize slotSize;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "parkingLotId", nullable = false, updatable = false)

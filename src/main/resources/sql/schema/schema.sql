@@ -27,7 +27,7 @@ CREATE TABLE
     parking_lot.slot(
         Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         Mnemonic VARCHAR(100) NOT NULL,
-        slotType SMALLINT NOT NULL,
+        slotSize SMALLINT NOT NULL,
         ParkingLotId INT,
         FloorId INT,
         isAvailable BOOLEAN,
@@ -37,7 +37,7 @@ CREATE TABLE
             Mnemonic,
             ParkingLotId,
             FloorId,
-            slotType
+            slotSize
         )
     );
 
@@ -49,15 +49,14 @@ CREATE TABLE
         ParkingLotId INT,
         FloorId INT,
         SlotId INT,
-        vehicle_type SMALLINT NOT NULL,
-        start_time DATETIME,
-        end_time DATETIME,
+        startTime DATETIME,
+        endTime DATETIME,
         INDEX(
             VehicleId,
             ParkingLotId,
             FloorId,
             SlotId,
-            start_time,
-            end_time
+            startTime,
+            endTime
         )
     )

@@ -19,13 +19,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Floor {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int mnemonic;
-    private long parkingLotId;
 
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @JoinColumn(name = "parkingLotId", nullable = false, updatable = false)
+    @JoinColumn(name = "ParkingLotId", nullable = false, updatable = false)
     private ParkingLot parkingLot;
 
 }

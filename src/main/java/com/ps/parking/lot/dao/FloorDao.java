@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.ps.parking.lot.dao.repositories.FloorRepository;
 import com.ps.parking.lot.models.entities.Floor;
+import com.ps.parking.lot.models.entities.ParkingLot;
 
 @Component
 public class FloorDao{
@@ -20,7 +21,7 @@ public class FloorDao{
     }
 
     public List<Floor> getAllFloorsByParkingLotId(long parkingLotId) {
-        return floorRepository.findParkingLotId(parkingLotId);
+        return floorRepository.findByParkingLotId(ParkingLot.builder().id(parkingLotId).build());
     }
 
     public Optional<Floor> findByMnemonic(int mnemonic){

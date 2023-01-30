@@ -1,5 +1,7 @@
 package com.ps.parking.lot.dao;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ public class ParkingLotDao {
         return parkingLotRepository.saveIfMnemonicNotExist(parkingLot);
     }
 
-    public ParkingLot getParkingLotFromMnemonic(String mnemonic) {
+    public Optional<ParkingLot> getParkingLotFromMnemonic(String mnemonic) {
         return parkingLotRepository.findByMnemonic(mnemonic);
     }
 }

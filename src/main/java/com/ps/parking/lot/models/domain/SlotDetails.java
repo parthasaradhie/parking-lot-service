@@ -1,6 +1,6 @@
 package com.ps.parking.lot.models.domain;
 
-import com.ps.parking.lot.models.domain.enums.SlotType;
+import com.ps.parking.lot.models.domain.enums.SlotSize;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class SlotDetails {
     private String id;
     @NotNull
-    private SlotType slotType;
+    private SlotSize slotSize;
     private int numberOfSlots;
 }

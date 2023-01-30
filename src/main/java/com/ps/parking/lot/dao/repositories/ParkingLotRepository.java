@@ -10,11 +10,12 @@ import com.ps.parking.lot.models.entities.ParkingLot;
 @Component
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, Long> {
 
-    public ParkingLot findByMnemonic(String mnemonic);
+    public Optional<ParkingLot> findByMnemonic(String mnemonic);
 
     default ParkingLot saveIfMnemonicNotExist(ParkingLot parkingLot) {
         return Optional.ofNullable(findByMnemonic(parkingLot.getMnemonic()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .orElseGet(() -> save(parkingLot));
     }
-
 }
