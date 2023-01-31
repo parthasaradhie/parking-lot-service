@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SlotResponseDto {
-    private String slot;
+	private String slot;
 }

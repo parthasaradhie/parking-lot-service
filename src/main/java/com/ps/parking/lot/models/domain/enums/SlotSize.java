@@ -7,25 +7,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum SlotSize {
-    SMALL(1),
-    MEDIUM(2),
-    LARGE(3),
-    X_LARGE(4);
+	LARGE(3), MEDIUM(2), SMALL(1), X_LARGE(4);
 
-    private int size;
-    private static Map<Integer, SlotSize> cacheMap = Arrays.stream(values())
-            .collect(Collectors.toMap(SlotSize::getSize, Function.identity()));
+	private static Map<Integer, SlotSize> cacheMap = Arrays.stream(values())
+			.collect(Collectors.toMap(SlotSize::getSize, Function.identity()));
+	public static Optional<SlotSize> getSlotSize(int priority) throws IllegalArgumentException {
+		SlotSize slotSize = cacheMap.get(priority);
+		return Optional.ofNullable(slotSize);
+	}
 
-    private SlotSize(int priority) {
-        this.size = priority;
-    }
+	private int size;
 
-    public int getSize() {
-        return this.size;
-    }
+	private SlotSize(int priority) {
+		this.size = priority;
+	}
 
-    public static Optional<SlotSize> getSlotSize(int priority) throws IllegalArgumentException {
-        SlotSize slotSize = cacheMap.get(priority);
-        return Optional.ofNullable(slotSize);
-    }
+	public int getSize() {
+		return this.size;
+	}
 }

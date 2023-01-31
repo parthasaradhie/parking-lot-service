@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 public class OnboardParkingLotsRequestDto {
-    @NotBlank
-    private String parkingLotId;
-    private List<ParkingFloorDetails> parkingFloorDetails;
+	private List<ParkingFloorDetails> parkingFloorDetails;
+	@NotBlank
+	private String parkingLotId;
 }

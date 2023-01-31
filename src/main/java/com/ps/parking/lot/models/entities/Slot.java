@@ -12,30 +12,30 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(builderClassName = "Builder")
 public class Slot {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String mnemonic;
-    private boolean isAvailable;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "floorId", nullable = false, updatable = false)
+	private Floor floor;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	private boolean isAvailable;
 
-    @Convert(converter = SlotSizeAttributeConverter.class)
-    private SlotSize slotSize;
+	private String mnemonic;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "parkingLotId", nullable = false, updatable = false)
-    private ParkingLot parkingLot;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "parkingLotId", nullable = false, updatable = false)
+	private ParkingLot parkingLot;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "floorId", nullable = false, updatable = false)
-    private Floor floor;
+	@Convert(converter = SlotSizeAttributeConverter.class)
+	private SlotSize slotSize;
 }

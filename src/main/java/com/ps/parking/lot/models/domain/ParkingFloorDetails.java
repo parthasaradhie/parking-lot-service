@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParkingFloorDetails {
-    @NotBlank
-    @JsonProperty("floorNumber")
-    private Integer floorMnemonic;
-    private List<SlotDetails> slots;
+	@NotBlank
+	@JsonProperty("floorNumber")
+	private Integer floorMnemonic;
+	private List<SlotDetails> slots;
 }

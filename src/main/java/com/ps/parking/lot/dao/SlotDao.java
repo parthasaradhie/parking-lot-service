@@ -15,43 +15,41 @@ import com.ps.parking.lot.models.entities.Slot;
 
 @Component
 public class SlotDao {
-    @Autowired
-    private SlotRepository slotRepository;
-    private static final Pageable SINGLE_OBJECT_PAGESIZE = Pageable.ofSize(1);
+	private static final Pageable SINGLE_OBJECT_PAGESIZE = Pageable.ofSize(1);
+	@Autowired
+	private SlotRepository slotRepository;
 
-    public void saveAll(List<Slot> slots) {
-        slotRepository.saveAll(slots);
-    }
+	public Optional<Slot> findByMnemonicAndParkingLotId(String slotMnemonic, long parkingLotId) {
+		return slotRepository.findByMnemonicAndParkingLot_Id(slotMnemonic, parkingLotId);
+	}
 
-    public Slot save(Slot slot) {
-        return slotRepository.save(slot);
-    }
+	private Slot getSlotWithUpdatedAvailability(Slot slot, boolean isAvailable) {
+		return Slot.builder().id(slot.getId()).isAvailable(true).mnemonic(slot.getMnemonic())
+				.parkingLot(slot.getParkingLot()).slotSize(slot.getSlotSize()).build();
+	}
 
-    public void setSlotAsAvailable(Slot slot, long parkingLotId) {
-        if (slot == null) {
-            return;
-        }
-        slot.setAvailable(true);
-        save(slot);
-    }
+	@Transactional
+	public Optional<Slot> lockAndGetValidSlot(@Param("slotSize") SlotSize slotSize,
+			@Param("parkingLotId") long parkingLotId) {
+		return Optional
+				.ofNullable(slotRepository.lockAndGetValidSlotsInternal(SINGLE_OBJECT_PAGESIZE, slotSize, parkingLotId))
+				.filter(slot -> slot.size() > 0).map(slot -> slot.get(0))
+				.map(slot -> getSlotWithUpdatedAvailability(slot, false)).map(this::save);
+	}
 
-    public Optional<Slot> findByMnemonicAndParkingLotId(String slotMnemonic, long parkingLotId) {
-        return slotRepository.findByMnemonicAndParkingLot_Id(slotMnemonic, parkingLotId);
-    }
+	public Slot save(Slot slot) {
+		return slotRepository.save(slot);
+	}
 
-    @Transactional
-    public Optional<Slot> lockAndGetValidSlot(@Param("slotSize") SlotSize slotSize,
-            @Param("parkingLotId") long parkingLotId) {
-        return Optional
-                .ofNullable(slotRepository.lockAndGetValidSlotsInternal(SINGLE_OBJECT_PAGESIZE, slotSize, parkingLotId))
-                .filter(slot -> slot.size() > 0)
-                .map(slot -> slot.get(0))
-                .map(slot -> setSlotAvailabilityToFalse(slot))
-                .map(this::save);
-    }
+	public void saveAll(List<Slot> slots) {
+		slotRepository.saveAll(slots);
+	}
 
-    private Slot setSlotAvailabilityToFalse(Slot slot) {
-        slot.setAvailable(false);
-        return slot;
-    }
+	public void setSlotAsAvailable(Slot slot, long parkingLotId) {
+		if (slot == null) {
+			return;
+		}
+
+		save(getSlotWithUpdatedAvailability(slot, true));
+	}
 }

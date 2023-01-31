@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ReleaseSlotRequestDto {
-    @NotBlank
-    private String parkingLotId;
-    @NotBlank
-    private String slotId;
+	@NotBlank
+	private String parkingLotId;
+	@NotBlank
+	private String slotId;
 }

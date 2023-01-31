@@ -21,11 +21,11 @@ import jakarta.persistence.QueryHint;
 @Component
 public interface SlotRepository extends JpaRepository<Slot, Long> {
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({ @QueryHint(name = "jakarta.persistence.lock.timeout", value = LockOptions.SKIP_LOCKED + "") })
-    @Query("SELECT LOT FROM Slot LOT WHERE LOT.parkingLot.id=:parkingLotId AND LOT.slotSize>=:slotSize AND LOT.isAvailable=true ORDER BY LOT.slotSize ASC")
-    public List<Slot> lockAndGetValidSlotsInternal(Pageable page, @Param("slotSize") SlotSize slotSize,
-            @Param("parkingLotId") long parkingLotId);
+	public Optional<Slot> findByMnemonicAndParkingLot_Id(String slotMnemonic, long parkingLotId);
 
-    public Optional<Slot> findByMnemonicAndParkingLot_Id(String slotMnemonic, long parkingLotId);
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@QueryHints({ @QueryHint(name = "jakarta.persistence.lock.timeout", value = LockOptions.SKIP_LOCKED + "") })
+	@Query("SELECT LOT FROM Slot LOT WHERE LOT.parkingLot.id=:parkingLotId AND LOT.slotSize>=:slotSize AND LOT.isAvailable=true ORDER BY LOT.slotSize ASC")
+	public List<Slot> lockAndGetValidSlotsInternal(Pageable page, @Param("slotSize") SlotSize slotSize,
+			@Param("parkingLotId") long parkingLotId);
 }

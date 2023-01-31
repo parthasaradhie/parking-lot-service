@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BillingDetailsResponseDto {
-    private OffsetDateTime parkingStartDateTime;
-    private OffsetDateTime parkingEnDateTime;
+	private OffsetDateTime parkingEnDateTime;
+	private OffsetDateTime parkingStartDateTime;
 }

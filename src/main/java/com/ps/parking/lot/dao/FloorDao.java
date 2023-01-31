@@ -11,20 +11,20 @@ import com.ps.parking.lot.models.entities.Floor;
 import com.ps.parking.lot.models.entities.ParkingLot;
 
 @Component
-public class FloorDao{
+public class FloorDao {
 
-    @Autowired
-    private FloorRepository floorRepository;
+	@Autowired
+	private FloorRepository floorRepository;
 
-    public void saveAll(List<Floor> floors) {
-        floorRepository.saveAll(floors);
-    }
+	public Optional<Floor> findByMnemonic(int mnemonic) {
+		return floorRepository.findByMnemonic(mnemonic);
+	}
 
-    public List<Floor> getAllFloorsByParkingLotId(long parkingLotId) {
-        return floorRepository.findByParkingLotId(ParkingLot.builder().id(parkingLotId).build());
-    }
+	public List<Floor> getAllFloorsByParkingLotId(long parkingLotId) {
+		return floorRepository.findByParkingLotId(ParkingLot.builder().id(parkingLotId).build());
+	}
 
-    public Optional<Floor> findByMnemonic(int mnemonic){
-        return floorRepository.findByMnemonic(mnemonic);
-    }
+	public void saveAll(List<Floor> floors) {
+		floorRepository.saveAll(floors);
+	}
 }

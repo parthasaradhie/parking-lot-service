@@ -13,7 +13,6 @@ import com.ps.parking.lot.models.dto.OnboardParkingLotsRequestDto;
 @RequestMapping("admin")
 public interface ParkingLotOnboardController {
 
-    @PostMapping(path = "/onboard-parking-lot", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> onBoardParkingLot(
-            @RequestBody OnboardParkingLotsRequestDto parkingLots);
+	@PostMapping(path = "/onboard-parking-lot", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> onBoardParkingLot(@RequestBody OnboardParkingLotsRequestDto parkingLots);
 }

@@ -10,14 +10,14 @@ import com.ps.parking.lot.models.entities.ParkingLot;
 
 @Component
 public class ParkingLotDao {
-    @Autowired
-    private ParkingLotRepository parkingLotRepository;
+	@Autowired
+	private ParkingLotRepository parkingLotRepository;
 
-    public ParkingLot saveOnlyIfMnemonicNotExist(ParkingLot parkingLot) {
-        return parkingLotRepository.saveIfMnemonicNotExist(parkingLot);
-    }
+	public Optional<ParkingLot> getParkingLotFromMnemonic(String mnemonic) {
+		return parkingLotRepository.findByMnemonic(mnemonic);
+	}
 
-    public Optional<ParkingLot> getParkingLotFromMnemonic(String mnemonic) {
-        return parkingLotRepository.findByMnemonic(mnemonic);
-    }
+	public ParkingLot saveOnlyIfMnemonicNotExist(ParkingLot parkingLot) {
+		return parkingLotRepository.saveIfMnemonicNotExist(parkingLot);
+	}
 }

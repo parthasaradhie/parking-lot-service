@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(builderClassName = "Builder")
 public class SlotOccupancy {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int vehicleId;
-    private Long parkingLotId;
-    private Long floorId;
-    private Long slotId;
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
+	private OffsetDateTime endTime;
+	private Long floorId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	private Long parkingLotId;
+	private Long slotId;
+	private OffsetDateTime startTime;
+	private int vehicleId;
 }

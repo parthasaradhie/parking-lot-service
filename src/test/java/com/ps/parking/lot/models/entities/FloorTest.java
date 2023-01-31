@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 public class FloorTest {
 
 	private static final long ID = 123444;
-	private static final int MNEMONIC = 123;
 
+	private static final int MNEMONIC = 123;
 	private static final ParkingLot PARKING_LOT = new ParkingLot();
 	private static final Floor.Builder FLOOR = Floor.builder().id(ID).mnemonic(MNEMONIC).parkingLot(PARKING_LOT);
 

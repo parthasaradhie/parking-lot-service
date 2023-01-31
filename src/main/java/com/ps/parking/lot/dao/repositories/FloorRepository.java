@@ -13,8 +13,8 @@ import com.ps.parking.lot.models.entities.ParkingLot;
 @Component
 public interface FloorRepository extends JpaRepository<Floor, Long> {
 
-    @Query("FROM Floor FR WHERE FR.parkingLot=:parkingLot")
-    public List<Floor> findByParkingLotId(ParkingLot parkingLot);
+	public Optional<Floor> findByMnemonic(int mnemonic);
 
-    public Optional<Floor> findByMnemonic(int mnemonic);
+	@Query("FROM Floor FR WHERE FR.parkingLot=:parkingLot")
+	public List<Floor> findByParkingLotId(ParkingLot parkingLot);
 }

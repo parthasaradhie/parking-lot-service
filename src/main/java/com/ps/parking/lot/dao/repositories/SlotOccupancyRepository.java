@@ -10,7 +10,7 @@ import com.ps.parking.lot.models.entities.SlotOccupancy;
 @Component
 public interface SlotOccupancyRepository extends JpaRepository<SlotOccupancy, Long> {
 
-    public Optional<SlotOccupancy> findBySlotIdAndParkingLotIdAndEndTimeNull(long slotId, long parkingLotId);
+	public Optional<SlotOccupancy> findBySlotIdAndParkingLotIdAndEndTimeNull(long slotId, long parkingLotId);
 
-    public Optional<SlotOccupancy> findFirstBySlotIdAndParkingLotIdOrderByIdDesc(long slotId, long parkingLotId);
+	public Optional<SlotOccupancy> findFirstBySlotIdAndParkingLotIdOrderByIdDesc(long slotId, long parkingLotId);
 }

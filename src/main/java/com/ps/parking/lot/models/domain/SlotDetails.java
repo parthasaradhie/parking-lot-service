@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SlotDetails {
-    private String id;
-    @NotNull
-    private SlotSize slotSize;
-    private int numberOfSlots;
+	private String id;
+	private int numberOfSlots;
+	@NotNull
+	private SlotSize slotSize;
 }

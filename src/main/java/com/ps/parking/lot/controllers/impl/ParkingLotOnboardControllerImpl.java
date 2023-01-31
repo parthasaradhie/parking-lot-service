@@ -11,12 +11,12 @@ import com.ps.parking.lot.services.ParkingLotOnboardService;
 @Component
 public class ParkingLotOnboardControllerImpl implements ParkingLotOnboardController {
 
-    @Autowired
-    private ParkingLotOnboardService parkingLotOnboardService;
+	@Autowired
+	private ParkingLotOnboardService parkingLotOnboardService;
 
-    @Override
-    public ResponseEntity<Void> onBoardParkingLot(OnboardParkingLotsRequestDto parkingLots) {
-        parkingLotOnboardService.onBoardParkingLot(parkingLots);
-        return ResponseEntity.ok().build();
-    }
+	@Override
+	public ResponseEntity<Void> onBoardParkingLot(OnboardParkingLotsRequestDto parkingLots) {
+		parkingLotOnboardService.onBoardParkingLot(parkingLots);
+		return ResponseEntity.ok().build();
+	}
 }

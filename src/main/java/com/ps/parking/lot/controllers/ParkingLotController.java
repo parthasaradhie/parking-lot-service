@@ -18,17 +18,14 @@ import com.ps.parking.lot.models.dto.SlotResponseDto;
 @RequestMapping("/")
 public interface ParkingLotController {
 
-        @GetMapping(path = "/getSlot/{parkingLotId}/{slotSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<SlotResponseDto> getSlot(
-                        @PathVariable("parkingLotId") String parkingLotMnemonic,
-                        @PathVariable("slotSize") SlotSize slotSize);
+	@PostMapping(path = "/parkingBill", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getParkingBill(@RequestBody ReleaseSlotRequestDto releaseSlotRequestDto);
 
-        @PutMapping(path = "/releaseSlots", produces = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<Void> releaseSlots(
-                        @RequestBody ReleaseSlotRequestDto releaseSlotRequestDto);
+	@GetMapping(path = "/getSlot/{parkingLotId}/{slotSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SlotResponseDto> getSlot(@PathVariable("parkingLotId") String parkingLotMnemonic,
+			@PathVariable("slotSize") SlotSize slotSize);
 
-        @PostMapping(path = "/parkingBill", produces = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<Object> getParkingBill(
-                        @RequestBody ReleaseSlotRequestDto releaseSlotRequestDto);
+	@PutMapping(path = "/releaseSlots", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> releaseSlots(@RequestBody ReleaseSlotRequestDto releaseSlotRequestDto);
 
 }
