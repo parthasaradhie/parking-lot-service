@@ -23,11 +23,6 @@ public class SlotDao {
 		return slotRepository.findByMnemonicAndParkingLot_Id(slotMnemonic, parkingLotId);
 	}
 
-	private Slot getSlotWithUpdatedAvailability(Slot slot, boolean isAvailable) {
-		return Slot.builder().id(slot.getId()).isAvailable(true).mnemonic(slot.getMnemonic())
-				.parkingLot(slot.getParkingLot()).slotSize(slot.getSlotSize()).build();
-	}
-
 	@Transactional
 	public Optional<Slot> lockAndGetValidSlot(@Param("slotSize") SlotSize slotSize,
 			@Param("parkingLotId") long parkingLotId) {
@@ -51,5 +46,10 @@ public class SlotDao {
 		}
 
 		save(getSlotWithUpdatedAvailability(slot, true));
+	}
+
+	private Slot getSlotWithUpdatedAvailability(Slot slot, boolean isAvailable) {
+		return Slot.builder().id(slot.getId()).isAvailable(true).mnemonic(slot.getMnemonic())
+				.parkingLot(slot.getParkingLot()).slotSize(slot.getSlotSize()).build();
 	}
 }

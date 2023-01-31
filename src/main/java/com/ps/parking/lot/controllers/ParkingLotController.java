@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ps.parking.lot.models.domain.enums.SlotSize;
-import com.ps.parking.lot.models.dto.ReleaseSlotRequestDto;
+import com.ps.parking.lot.models.dto.SlotRequestDto;
 import com.ps.parking.lot.models.dto.SlotResponseDto;
 
 @RestController
@@ -19,13 +19,13 @@ import com.ps.parking.lot.models.dto.SlotResponseDto;
 public interface ParkingLotController {
 
 	@PostMapping(path = "/parkingBill", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getParkingBill(@RequestBody ReleaseSlotRequestDto releaseSlotRequestDto);
+	public ResponseEntity<Object> getParkingBill(@RequestBody SlotRequestDto releaseSlotRequestDto);
 
 	@GetMapping(path = "/getSlot/{parkingLotId}/{slotSize}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SlotResponseDto> getSlot(@PathVariable("parkingLotId") String parkingLotMnemonic,
 			@PathVariable("slotSize") SlotSize slotSize);
 
 	@PutMapping(path = "/releaseSlots", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> releaseSlots(@RequestBody ReleaseSlotRequestDto releaseSlotRequestDto);
+	public ResponseEntity<Void> releaseSlots(@RequestBody SlotRequestDto releaseSlotRequestDto);
 
 }

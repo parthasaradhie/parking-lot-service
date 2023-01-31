@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import com.ps.parking.lot.controllers.ParkingLotController;
 import com.ps.parking.lot.models.domain.enums.SlotSize;
 import com.ps.parking.lot.models.dto.BillingDetailsResponseDto;
-import com.ps.parking.lot.models.dto.ReleaseSlotRequestDto;
+import com.ps.parking.lot.models.dto.SlotRequestDto;
 import com.ps.parking.lot.models.dto.SlotResponseDto;
 import com.ps.parking.lot.services.ParkingLotService;
 
@@ -20,7 +20,7 @@ public class ParkingLotControllerImpl implements ParkingLotController {
 	private ParkingLotService parkingLotService;
 
 	@Override
-	public ResponseEntity<Object> getParkingBill(ReleaseSlotRequestDto releaseSlotRequestDto) {
+	public ResponseEntity<Object> getParkingBill(SlotRequestDto releaseSlotRequestDto) {
 		Optional<BillingDetailsResponseDto> parkingBill = parkingLotService.getParkingBill(releaseSlotRequestDto);
 		if (parkingBill.isPresent()) {
 			return ResponseEntity.ok(parkingBill.get());
@@ -36,7 +36,7 @@ public class ParkingLotControllerImpl implements ParkingLotController {
 	}
 
 	@Override
-	public ResponseEntity<Void> releaseSlots(ReleaseSlotRequestDto releaseSlotRequestDto) {
+	public ResponseEntity<Void> releaseSlots(SlotRequestDto releaseSlotRequestDto) {
 		parkingLotService.releaseSlots(releaseSlotRequestDto);
 
 		return ResponseEntity.ok().build();

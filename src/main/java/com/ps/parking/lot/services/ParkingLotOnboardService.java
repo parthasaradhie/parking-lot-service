@@ -32,6 +32,26 @@ public class ParkingLotOnboardService {
 	@Autowired
 	private SlotDao slotDao;
 
+	public void onBoardParkingLot(OnboardParkingLotsRequestDto parkingLots) {
+		String parkingLotId = parkingLots.getParkingLotId();
+		ParkingLot parkingLotDetails = parkingLotDao
+				.saveOnlyIfMnemonicNotExist(ParkingLot.builder().mnemonic(parkingLotId).build());
+		List<Floor> existingFloors = floorDao.getAllFloorsByParkingLotId(parkingLotDetails.getId());
+		Set<Integer> existingFloorsMnemonics = existingFloors.stream().map(Floor::getMnemonic)
+				.collect(Collectors.toSet());
+		List<Floor> newFloors = parkingLots.getParkingFloorDetails().stream().map(ParkingFloorDetails::getFloorMnemonic)
+				.filter(Objects::nonNull).filter(floorMnemonic -> !existingFloorsMnemonics.contains(floorMnemonic))
+				.map(floorMnemonic -> getFloor(parkingLotDetails, floorMnemonic)).collect(Collectors.toList());
+		floorDao.saveAll(newFloors);
+		Map<Integer, Floor> combinedFloors = Stream.concat(existingFloors.stream(), newFloors.stream())
+				.collect(Collectors.toMap(Floor::getMnemonic, Function.identity()));
+
+		List<Slot> slots = parkingLots.getParkingFloorDetails().stream().map(
+				floorDetail -> getSlotStreamFromFloorDetail(parkingLotDetails.getId(), combinedFloors, floorDetail))
+				.flatMap(Function.identity()).toList();
+		slotDao.saveAll(slots);
+	}
+
 	private Slot geSlot(long parkingLotId, Map<Integer, Floor> combinedFloors, ParkingFloorDetails floorDetail,
 			SlotDetails slot, int number) {
 		Floor currentFloor = combinedFloors.get(floorDetail.getFloorMnemonic());
@@ -56,25 +76,5 @@ public class ParkingLotOnboardService {
 		return floorDetail.getSlots().stream()
 				.map(slot -> getSlotsStreamFromSlotDetails(parkingLotId, combinedFloors, floorDetail, slot))
 				.flatMap(Function.identity());
-	}
-
-	public void onBoardParkingLot(OnboardParkingLotsRequestDto parkingLots) {
-		String parkingLotId = parkingLots.getParkingLotId();
-		ParkingLot parkingLotDetails = parkingLotDao
-				.saveOnlyIfMnemonicNotExist(ParkingLot.builder().mnemonic(parkingLotId).build());
-		List<Floor> existingFloors = floorDao.getAllFloorsByParkingLotId(parkingLotDetails.getId());
-		Set<Integer> existingFloorsMnemonics = existingFloors.stream().map(Floor::getMnemonic)
-				.collect(Collectors.toSet());
-		List<Floor> newFloors = parkingLots.getParkingFloorDetails().stream().map(ParkingFloorDetails::getFloorMnemonic)
-				.filter(Objects::nonNull).filter(floorMnemonic -> !existingFloorsMnemonics.contains(floorMnemonic))
-				.map(floorMnemonic -> getFloor(parkingLotDetails, floorMnemonic)).collect(Collectors.toList());
-		floorDao.saveAll(newFloors);
-		Map<Integer, Floor> combinedFloors = Stream.concat(existingFloors.stream(), newFloors.stream())
-				.collect(Collectors.toMap(Floor::getMnemonic, Function.identity()));
-
-		List<Slot> slots = parkingLots.getParkingFloorDetails().stream().map(
-				floorDetail -> getSlotStreamFromFloorDetail(parkingLotDetails.getId(), combinedFloors, floorDetail))
-				.flatMap(Function.identity()).toList();
-		slotDao.saveAll(slots);
 	}
 }

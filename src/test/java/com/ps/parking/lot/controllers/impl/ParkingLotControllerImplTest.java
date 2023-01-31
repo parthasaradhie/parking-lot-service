@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.ps.parking.lot.models.domain.enums.SlotSize;
 import com.ps.parking.lot.models.dto.BillingDetailsResponseDto;
-import com.ps.parking.lot.models.dto.ReleaseSlotRequestDto;
+import com.ps.parking.lot.models.dto.SlotRequestDto;
 import com.ps.parking.lot.models.dto.SlotResponseDto;
 import com.ps.parking.lot.services.ParkingLotService;
 
@@ -30,7 +30,7 @@ public class ParkingLotControllerImplTest {
 
     @Test
     public void testGetParkingBill() {
-        ReleaseSlotRequestDto request = new ReleaseSlotRequestDto();
+        SlotRequestDto request = new SlotRequestDto();
         BillingDetailsResponseDto bill = new BillingDetailsResponseDto();
         when(parkingLotService.getParkingBill(request)).thenReturn(Optional.of(bill));
 
@@ -41,7 +41,7 @@ public class ParkingLotControllerImplTest {
 
     @Test
     public void testGetParkingBill_empty() {
-        ReleaseSlotRequestDto request = new ReleaseSlotRequestDto();
+        SlotRequestDto request = new SlotRequestDto();
         when(parkingLotService.getParkingBill(request)).thenReturn(Optional.empty());
 
         ResponseEntity<Object> result = controller.getParkingBill(request);
@@ -63,7 +63,7 @@ public class ParkingLotControllerImplTest {
 
     @Test
     public void testReleaseSlots() {
-        ReleaseSlotRequestDto request = new ReleaseSlotRequestDto();
+        SlotRequestDto request = new SlotRequestDto();
 
         controller.releaseSlots(request);
 

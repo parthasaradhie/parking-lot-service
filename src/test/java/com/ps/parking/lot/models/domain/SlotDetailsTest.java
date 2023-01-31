@@ -22,6 +22,24 @@ public class SlotDetailsTest {
 			.numberOfSlots(NUMBER_OF_SLOTS);
 
 	@Test
+	public void testSetIdForSlotDetails() {
+		SlotDetails slotDetails = SlotDetails.builder().id("123").build();
+		assertEquals("123", slotDetails.getId());
+	}
+
+	@Test
+	public void testSetNumberOfSlotsForSlotDetails() {
+		SlotDetails slotDetails = SlotDetails.builder().numberOfSlots(5).build();
+		assertEquals(5, slotDetails.getNumberOfSlots());
+	}
+
+	@Test
+	public void testSetSlotSizeForSlotDetails() {
+		SlotDetails slotDetails = SlotDetails.builder().slotSize(SlotSize.LARGE).build();
+		assertEquals(SlotSize.LARGE, slotDetails.getSlotSize());
+	}
+
+	@Test
 	void testBuilder() {
 		SlotDetails slotDetails = SLOT_DETAILS.build();
 		assertInstanceOf(SlotDetails.class, slotDetails);
@@ -55,24 +73,6 @@ public class SlotDetailsTest {
 		assertEquals("id", slotDetails.getId());
 		assertEquals(SlotSize.SMALL, slotDetails.getSlotSize());
 		assertEquals(1, slotDetails.getNumberOfSlots());
-	}
-
-	@Test
-	public void testSetIdForSlotDetails() {
-		SlotDetails slotDetails = SlotDetails.builder().id("123").build();
-		assertEquals("123", slotDetails.getId());
-	}
-
-	@Test
-	public void testSetNumberOfSlotsForSlotDetails() {
-		SlotDetails slotDetails = SlotDetails.builder().numberOfSlots(5).build();
-		assertEquals(5, slotDetails.getNumberOfSlots());
-	}
-
-	@Test
-	public void testSetSlotSizeForSlotDetails() {
-		SlotDetails slotDetails = SlotDetails.builder().slotSize(SlotSize.LARGE).build();
-		assertEquals(SlotSize.LARGE, slotDetails.getSlotSize());
 	}
 
 	@Test

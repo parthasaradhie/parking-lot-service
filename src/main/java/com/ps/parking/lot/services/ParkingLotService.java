@@ -11,7 +11,7 @@ import com.ps.parking.lot.dao.SlotDao;
 import com.ps.parking.lot.dao.SlotOccupancyDao;
 import com.ps.parking.lot.models.domain.enums.SlotSize;
 import com.ps.parking.lot.models.dto.BillingDetailsResponseDto;
-import com.ps.parking.lot.models.dto.ReleaseSlotRequestDto;
+import com.ps.parking.lot.models.dto.SlotRequestDto;
 import com.ps.parking.lot.models.dto.SlotResponseDto;
 import com.ps.parking.lot.models.entities.ParkingLot;
 import com.ps.parking.lot.models.entities.Slot;
@@ -30,10 +30,14 @@ public class ParkingLotService {
 	@Autowired
 	private SlotOccupancyDao slotOccupancyDao;
 
-	public Optional<BillingDetailsResponseDto> getParkingBill(ReleaseSlotRequestDto releaseSlotRequestDto) {
-		Optional<String> slotMnemonic = getSlotMnemonicFromSlotRequest(releaseSlotRequestDto);
+	public Optional<BillingDetailsResponseDto> getParkingBill(SlotRequestDto slotRequestDto) {
+		if (slotRequestDto == null) {
+			return Optional.empty();
+		}
+
+		Optional<String> slotMnemonic = getSlotMnemonicFromSlotRequest(slotRequestDto);
 		Optional<ParkingLot> parkingLotFromMnemonic = parkingLotDao
-				.getParkingLotFromMnemonic(releaseSlotRequestDto.getParkingLotId());
+				.getParkingLotFromMnemonic(slotRequestDto.getParkingLotId());
 		Optional<Slot> slotDetails = slotDao.findByMnemonicAndParkingLotId(slotMnemonic.orElse(null),
 				parkingLotFromMnemonic.map(ParkingLot::getId).orElse(0L));
 		Optional<SlotOccupancy> slotOccupancy = slotOccupancyDao.getSlotOccupancy(
@@ -49,17 +53,28 @@ public class ParkingLotService {
 				.flatMap(lot -> slotDao.lockAndGetValidSlot(slotSize, lot.getId()));
 		SlotResponseDto slotResponseDto = slotDetails.map(this::getSlotResponseDto)
 				.orElseGet(this::logAndReturnEmptyResponse);
-		slotDetails.ifPresent(slot -> {
-			slotOccupancyDao
-					.save(SlotOccupancy.builder().startTime(OffsetDateTime.now()).floorId(slot.getFloor().getId())
-							.parkingLotId(slot.getParkingLot().getId()).slotId(slot.getId()).build());
-		});
+		slotDetails.ifPresent(this::saveSlotOccupancy);
 
 		return slotResponseDto;
 	}
 
-	private Optional<String> getSlotMnemonicFromSlotRequest(ReleaseSlotRequestDto releaseSlotRequestDto) {
-		String[] slotMnemonicAndFloorId = Optional.ofNullable(releaseSlotRequestDto.getSlotId())
+	private void saveSlotOccupancy(Slot slot) {
+		slotOccupancyDao
+				.save(SlotOccupancy.builder().startTime(OffsetDateTime.now()).floorId(slot.getFloor().getId())
+						.parkingLotId(slot.getParkingLot().getId()).slotId(slot.getId()).build());
+	}
+
+	public void releaseSlots(SlotRequestDto slotRequestDto) {
+		Optional<String> slotMnemonic = getSlotMnemonicFromSlotRequest(slotRequestDto);
+		Optional<ParkingLot> parkingLotFromMnemonic = parkingLotDao
+				.getParkingLotFromMnemonic(slotRequestDto.getParkingLotId());
+		Optional<Slot> slotDetails = slotDao.findByMnemonicAndParkingLotId(slotMnemonic.orElse(null),
+				parkingLotFromMnemonic.map(ParkingLot::getId).orElse(0L));
+		slotDetails.filter(slot -> !slot.isAvailable()).ifPresent(slot -> releaseSlot(parkingLotFromMnemonic, slot));
+	}
+
+	private Optional<String> getSlotMnemonicFromSlotRequest(SlotRequestDto slotRequestDto) {
+		String[] slotMnemonicAndFloorId = Optional.ofNullable(slotRequestDto.getSlotId())
 				.map(id -> id.split("-")).orElse(new String[] { null, null });
 		return Optional.ofNullable(slotMnemonicAndFloorId[1]);
 	}
@@ -77,14 +92,5 @@ public class ParkingLotService {
 		slotDao.setSlotAsAvailable(slot, parkingLotFromMnemonic.map(ParkingLot::getId).orElse(0L));
 		slotOccupancyDao.updateSlotOccupancyEndTime(slot.getId(),
 				parkingLotFromMnemonic.map(ParkingLot::getId).orElse(0L), OffsetDateTime.now());
-	}
-
-	public void releaseSlots(ReleaseSlotRequestDto releaseSlotRequestDto) {
-		Optional<String> slotMnemonic = getSlotMnemonicFromSlotRequest(releaseSlotRequestDto);
-		Optional<ParkingLot> parkingLotFromMnemonic = parkingLotDao
-				.getParkingLotFromMnemonic(releaseSlotRequestDto.getParkingLotId());
-		Optional<Slot> slotDetails = slotDao.findByMnemonicAndParkingLotId(slotMnemonic.orElse(null),
-				parkingLotFromMnemonic.map(ParkingLot::getId).orElse(0L));
-		slotDetails.filter(slot -> !slot.isAvailable()).ifPresent(slot -> releaseSlot(parkingLotFromMnemonic, slot));
 	}
 }
