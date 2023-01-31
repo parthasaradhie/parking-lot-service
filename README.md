@@ -38,7 +38,10 @@ Building and designing cloud ready/Deployable parking lot.
     - With this way there is no need to handle from application level so that there wont be any thread locking or synchronize code blocks not needed.
     - With the current algorithm Slot selection is executed in DB layer with SQL so there is no overhead on application layer to use custom datastructure to pick best suitable slots.
     - With this the solution will become highly scalable and performers better than the application level handling algorithms.
-      
+
+# Current project status
+    - 98% test coverage achieved
+    - All the API are tested locally and working fine      
 # DB Design
 
 ![alt](doc/images/parking_lot_DD_Schema.png)
@@ -56,3 +59,47 @@ Docker, Mysql server, maven, git and Java 17 needs to preset before running this
 1. Run the Docker and should be running
 2. Checkout the project and run `mvn clean install` in root of the project.
 3. A docker image will be created on successful build.
+4. use schema.sql in [schma.sql](/src/main/resources/sql/schema/schema.sql) to initalize the sql DB for the first time.
+5. DB username and password should be created as like below
+    ```
+    spring.datasource.username=parkinglotserviceuser
+    spring.datasource.password=password
+    ```
+6. Jacoco test coverage report will be available in `{projectRoot}/target/site/jacoco/index.html` path
+
+# cURL for local
+
+### To fetch slots
+```
+curl -X GET \
+  'http://127.0.0.1:8080/getSlot/ps2/SMALL'
+```
+
+
+### To release slots
+```
+curl -X PUT \
+  'http://127.0.0.1:8080/releaseSlots' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+  "parkingLotId": "ps2",
+  "slotId": "1-21"
+}'
+```
+
+### To see billing details 
+currently limited to parking start and end date
+
+```
+curl -X POST \
+  'http://127.0.0.1:8080/parkingBill' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+  "parkingLotId": "ps2",
+  "slotId": "1-21"
+}'
+```
+
+### Coverage
+
+![alt](/doc/images/coverage.png))

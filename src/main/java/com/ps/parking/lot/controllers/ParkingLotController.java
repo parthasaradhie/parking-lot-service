@@ -19,13 +19,13 @@ import com.ps.parking.lot.models.dto.SlotResponseDto;
 public interface ParkingLotController {
 
 	@PostMapping(path = "/parkingBill", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getParkingBill(@RequestBody SlotRequestDto releaseSlotRequestDto);
+	public ResponseEntity<Object> getParkingBill(@RequestBody SlotRequestDto slotRequestDto);
 
 	@GetMapping(path = "/getSlot/{parkingLotId}/{slotSize}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SlotResponseDto> getSlot(@PathVariable("parkingLotId") String parkingLotMnemonic,
 			@PathVariable("slotSize") SlotSize slotSize);
 
 	@PutMapping(path = "/releaseSlots", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> releaseSlots(@RequestBody SlotRequestDto releaseSlotRequestDto);
+	public ResponseEntity<Void> releaseSlots(@RequestBody SlotRequestDto slotRequestDto);
 
 }

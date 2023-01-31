@@ -8,7 +8,10 @@ import com.ps.parking.lot.controllers.ParkingLotOnboardController;
 import com.ps.parking.lot.models.dto.OnboardParkingLotsRequestDto;
 import com.ps.parking.lot.services.ParkingLotOnboardService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class ParkingLotOnboardControllerImpl implements ParkingLotOnboardController {
 
 	@Autowired
@@ -16,6 +19,7 @@ public class ParkingLotOnboardControllerImpl implements ParkingLotOnboardControl
 
 	@Override
 	public ResponseEntity<Void> onBoardParkingLot(OnboardParkingLotsRequestDto parkingLots) {
+		log.info("[GET-SLOT] request received for onboarding parking lot {}", parkingLots);
 		parkingLotOnboardService.onBoardParkingLot(parkingLots);
 		return ResponseEntity.ok().build();
 	}

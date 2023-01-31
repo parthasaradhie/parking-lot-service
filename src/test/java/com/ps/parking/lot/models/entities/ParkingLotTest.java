@@ -2,6 +2,7 @@ package com.ps.parking.lot.models.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,14 @@ public class ParkingLotTest {
 	void testGetMnemonic() {
 		ParkingLot parkingLot = PARKING__LOT_BUILDER.build();
 		assertEquals(MNEMONIC, parkingLot.getMnemonic());
+	}
+
+	@Test
+	void testEquals() {
+		ParkingLot parkingLot1 = PARKING__LOT_BUILDER.build();
+		ParkingLot parkingLot2 = PARKING__LOT_BUILDER.build();
+		assertTrue(parkingLot1.equals(parkingLot2));
+		assertTrue(parkingLot1.hashCode() == parkingLot2.hashCode());
 	}
 
 }
